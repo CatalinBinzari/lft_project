@@ -31,14 +31,14 @@ int	  intval;
 
 %%
 statement : 
-        expression {printf("s-a recunoscut sirul:%s\n",$<strval>$);}
+        expression {printf("Raspuns:%s\n",$<strval>$);}
         |VAR '=' expression { strcpy(sym[$1], $3); printf("sym[%d]=[%s]\n", $1,$3);}
 ;
 
 expression:  
-      VAR { $$ = sym[$1]; printf("scot din sym[%d] valoarea %s\n", $1,$$);}
+      VAR { $$ = strdup(sym[$1]); printf("scot din sym[%d] valoarea %s\n", $1,$$);}
     | expression '+' expression {char* s=strdup($1);strcat(s,$3);$$=s;}
-    | expression '-' expression {$$=str_remove($1,$3);}
+    | expression '-' expression {printf("%s minus %s\n",$1,$3);$$=str_remove($1,$3);}
     | INCREMENT expression {$$=increment_first_char($2);}
     | DECREMENT expression {$$=decrement_first_char($2);}
     | SIMBOL_PUTERE expression {$$=strvrs($2);}
