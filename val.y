@@ -9,6 +9,8 @@ char* decrement_first_char(char *str);
 char* strvrs(char *str);
 char* string_repeat(const char *str, int n);
 char*  get_last_chars(const char *str, int n);
+char*  get_first_chars(const char *str, int n);
+char* str_remove(char *str, const char *sub);
 char sym[26][14];
 #define atoa(x) #x
 %}
@@ -21,10 +23,10 @@ int	  intval;
 %token <strval> STRING
 %type <strval> expression
 
-%left '+'
-
+%right EQUAL NOTEQUAL GREATER LESS GREATEREQUAL LESSEQUAL
+%left '+' '-'
 %left '*' '/' '#'
-%right DECREMENT INCREMENT SIMBOL_PUTERE SIMBOL_APROXIMARE
+%right DECREMENT INCREMENT SIMBOL_PUTERE SIMBOL_APROXIMARE 
 
 
 %%
@@ -36,12 +38,21 @@ statement :
 expression:  
       VAR { $$ = sym[$1]; printf("scot din sym[%d] valoarea %s\n", $1,$$);}
     | expression '+' expression {char* s=strdup($1);strcat(s,$3);$$=s;}
+    | expression '-' expression {$$=str_remove($1,$3);}
     | INCREMENT expression {$$=increment_first_char($2);}
     | DECREMENT expression {$$=decrement_first_char($2);}
     | SIMBOL_PUTERE expression {$$=strvrs($2);}
     | SIMBOL_APROXIMARE expression {asprintf (&$$, "%i", strlen($2));}
 	| expression '*' CINT  {$$=string_repeat($1,$3);}
 	| expression '/' CINT  {$$=get_last_chars($1,$3);}
+	| expression '#' CINT  {$$=get_first_chars($1,$3);}
+	| expression EQUAL expression {asprintf (&$$, "%i", !strcmp($1, $3));}
+	| expression NOTEQUAL expression {int tmp=0; if(strcmp($1, $3)!=0) tmp=1; asprintf (&$$, "%i", tmp);}
+	| expression GREATER expression {$$=(strlen($1)>strlen($3)) ? "1" : "0";}
+	| expression LESS expression {$$=(strlen($1)<strlen($3)) ? "1" : "0";}
+	| expression GREATEREQUAL expression {$$=(strlen($1)>=strlen($3)) ? "1" : "0";}
+	| expression LESSEQUAL expression {$$=(strlen($1)<=strlen($3)) ? "1" : "0";}
+	| '(' expression ')' { $$ = $2; }
 	| STRING {$$=strdup($1);}
 ;
 
@@ -77,7 +88,8 @@ char* decrement_first_char(char *str)
    printf("%s\n",str);
    return str;
 }
-char* strvrs(char *str){
+char* strvrs(char *str)
+{
     char *s;
     for(s = str; *s; ++s){
         if(islower(*s))
@@ -106,6 +118,25 @@ char*  get_last_chars(const char *str, int n)
 	strncpy(dest, str+(strlen(str)-n), n);
 	dest[n] = '\0';
 	return dest;
+}
+char*  get_first_chars(const char *str, int n)
+{
+	/*   "ertyu"#3="ert"   */
+	char *dest = malloc(n+1);
+	strncpy(dest, str, n);
+	dest[n] = '\0';
+	return dest;
+}
+char* str_remove(char *str, const char *sub)
+{
+    size_t len = strlen(sub);
+    if (len > 0) {
+        char *p = str;
+        while ((p = strstr(p, sub)) != NULL) {
+            memmove(p, p + len, strlen(p + len) + 1);
+        }
+    }
+    return str;
 }
 int main(){
 while (!feof(stdin))

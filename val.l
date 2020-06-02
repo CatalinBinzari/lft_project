@@ -24,6 +24,12 @@ sir_in_ghilimele		\"([a-zA-Z])+\"
 "--" {return DECREMENT;}
 "^"  {return SIMBOL_PUTERE; }
 "~"  {return SIMBOL_APROXIMARE;}
+"==" {return EQUAL;}
+"!=" {return NOTEQUAL;}
+">"  {return GREATER;}
+"<"  {return LESS;}
+">=" {return GREATEREQUAL;}
+"<=" {return LESSEQUAL;}
 
 [ \t]+ ;
 \n {return 0;}

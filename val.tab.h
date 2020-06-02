@@ -52,10 +52,16 @@ extern int yydebug;
     VAR = 258,
     CINT = 259,
     STRING = 260,
-    DECREMENT = 261,
-    INCREMENT = 262,
-    SIMBOL_PUTERE = 263,
-    SIMBOL_APROXIMARE = 264
+    EQUAL = 261,
+    NOTEQUAL = 262,
+    GREATER = 263,
+    LESS = 264,
+    GREATEREQUAL = 265,
+    LESSEQUAL = 266,
+    DECREMENT = 267,
+    INCREMENT = 268,
+    SIMBOL_PUTERE = 269,
+    SIMBOL_APROXIMARE = 270
   };
 #endif
 
@@ -64,12 +70,12 @@ extern int yydebug;
 
 union YYSTYPE
 {
-#line 15 "val.y" /* yacc.c:1921  */
+#line 17 "val.y" /* yacc.c:1921  */
 
 char* strval;
 int	  intval;
 
-#line 73 "val.tab.h" /* yacc.c:1921  */
+#line 79 "val.tab.h" /* yacc.c:1921  */
 };
 
 typedef union YYSTYPE YYSTYPE;
