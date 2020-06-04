@@ -72,7 +72,14 @@
 #include <stdlib.h>
 #include <ctype.h>
 #include <string.h>
-int yylex(void);
+
+#define YYERROR_VERBOSE
+extern int yylex();
+extern int yyparse();
+extern FILE *yyin;
+extern FILE *yyout;
+
+
 char* increment_first_char(char *str);
 char* decrement_first_char(char *str);
 char* strvrs(char *str);
@@ -83,7 +90,7 @@ char* str_remove(char *str, const char *sub);
 char sym[26][14];
 #define atoa(x) #x
 
-#line 87 "val.tab.c" /* yacc.c:337  */
+#line 94 "val.tab.c" /* yacc.c:337  */
 # ifndef YY_NULLPTR
 #  if defined __cplusplus
 #   if 201103L <= __cplusplus
@@ -142,12 +149,12 @@ extern int yydebug;
 
 union YYSTYPE
 {
-#line 17 "val.y" /* yacc.c:352  */
+#line 24 "val.y" /* yacc.c:352  */
 
 char* strval;
 int	  intval;
 
-#line 151 "val.tab.c" /* yacc.c:352  */
+#line 158 "val.tab.c" /* yacc.c:352  */
 };
 
 typedef union YYSTYPE YYSTYPE;
@@ -452,9 +459,9 @@ static const yytype_uint8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    34,    34,    35,    39,    40,    41,    42,    43,    44,
-      45,    46,    47,    48,    49,    50,    51,    52,    53,    54,
-      55,    56
+       0,    41,    41,    42,    46,    47,    48,    49,    50,    51,
+      52,    53,    54,    55,    56,    57,    58,    59,    60,    61,
+      62,    63
 };
 #endif
 
@@ -1264,127 +1271,127 @@ yyreduce:
   switch (yyn)
     {
         case 2:
-#line 34 "val.y" /* yacc.c:1652  */
-    {printf("Raspuns:%s\n",(yyval.strval));}
-#line 1270 "val.tab.c" /* yacc.c:1652  */
+#line 41 "val.y" /* yacc.c:1652  */
+    { fprintf(yyout, (yyvsp[0].strval)); }
+#line 1277 "val.tab.c" /* yacc.c:1652  */
     break;
 
   case 3:
-#line 35 "val.y" /* yacc.c:1652  */
+#line 42 "val.y" /* yacc.c:1652  */
     { strcpy(sym[(yyvsp[-2].intval)], (yyvsp[0].strval)); printf("sym[%d]=[%s]\n", (yyvsp[-2].intval),(yyvsp[0].strval));}
-#line 1276 "val.tab.c" /* yacc.c:1652  */
+#line 1283 "val.tab.c" /* yacc.c:1652  */
     break;
 
   case 4:
-#line 39 "val.y" /* yacc.c:1652  */
+#line 46 "val.y" /* yacc.c:1652  */
     { (yyval.strval) = strdup(sym[(yyvsp[0].intval)]); printf("scot din sym[%d] valoarea %s\n", (yyvsp[0].intval),(yyval.strval));}
-#line 1282 "val.tab.c" /* yacc.c:1652  */
+#line 1289 "val.tab.c" /* yacc.c:1652  */
     break;
 
   case 5:
-#line 40 "val.y" /* yacc.c:1652  */
+#line 47 "val.y" /* yacc.c:1652  */
     {char* s=strdup((yyvsp[-2].strval));strcat(s,(yyvsp[0].strval));(yyval.strval)=s;}
-#line 1288 "val.tab.c" /* yacc.c:1652  */
+#line 1295 "val.tab.c" /* yacc.c:1652  */
     break;
 
   case 6:
-#line 41 "val.y" /* yacc.c:1652  */
-    {printf("%s minus %s\n",(yyvsp[-2].strval),(yyvsp[0].strval));(yyval.strval)=str_remove((yyvsp[-2].strval),(yyvsp[0].strval));}
-#line 1294 "val.tab.c" /* yacc.c:1652  */
+#line 48 "val.y" /* yacc.c:1652  */
+    {(yyval.strval)=str_remove((yyvsp[-2].strval),(yyvsp[0].strval));}
+#line 1301 "val.tab.c" /* yacc.c:1652  */
     break;
 
   case 7:
-#line 42 "val.y" /* yacc.c:1652  */
+#line 49 "val.y" /* yacc.c:1652  */
     {(yyval.strval)=increment_first_char((yyvsp[0].strval));}
-#line 1300 "val.tab.c" /* yacc.c:1652  */
+#line 1307 "val.tab.c" /* yacc.c:1652  */
     break;
 
   case 8:
-#line 43 "val.y" /* yacc.c:1652  */
+#line 50 "val.y" /* yacc.c:1652  */
     {(yyval.strval)=decrement_first_char((yyvsp[0].strval));}
-#line 1306 "val.tab.c" /* yacc.c:1652  */
+#line 1313 "val.tab.c" /* yacc.c:1652  */
     break;
 
   case 9:
-#line 44 "val.y" /* yacc.c:1652  */
+#line 51 "val.y" /* yacc.c:1652  */
     {(yyval.strval)=strvrs((yyvsp[0].strval));}
-#line 1312 "val.tab.c" /* yacc.c:1652  */
+#line 1319 "val.tab.c" /* yacc.c:1652  */
     break;
 
   case 10:
-#line 45 "val.y" /* yacc.c:1652  */
+#line 52 "val.y" /* yacc.c:1652  */
     {asprintf (&(yyval.strval), "%i", strlen((yyvsp[0].strval)));}
-#line 1318 "val.tab.c" /* yacc.c:1652  */
+#line 1325 "val.tab.c" /* yacc.c:1652  */
     break;
 
   case 11:
-#line 46 "val.y" /* yacc.c:1652  */
+#line 53 "val.y" /* yacc.c:1652  */
     {(yyval.strval)=string_repeat((yyvsp[-2].strval),(yyvsp[0].intval));}
-#line 1324 "val.tab.c" /* yacc.c:1652  */
+#line 1331 "val.tab.c" /* yacc.c:1652  */
     break;
 
   case 12:
-#line 47 "val.y" /* yacc.c:1652  */
+#line 54 "val.y" /* yacc.c:1652  */
     {(yyval.strval)=get_last_chars((yyvsp[-2].strval),(yyvsp[0].intval));}
-#line 1330 "val.tab.c" /* yacc.c:1652  */
+#line 1337 "val.tab.c" /* yacc.c:1652  */
     break;
 
   case 13:
-#line 48 "val.y" /* yacc.c:1652  */
+#line 55 "val.y" /* yacc.c:1652  */
     {(yyval.strval)=get_first_chars((yyvsp[-2].strval),(yyvsp[0].intval));}
-#line 1336 "val.tab.c" /* yacc.c:1652  */
+#line 1343 "val.tab.c" /* yacc.c:1652  */
     break;
 
   case 14:
-#line 49 "val.y" /* yacc.c:1652  */
+#line 56 "val.y" /* yacc.c:1652  */
     {asprintf (&(yyval.strval), "%i", !strcmp((yyvsp[-2].strval), (yyvsp[0].strval)));}
-#line 1342 "val.tab.c" /* yacc.c:1652  */
+#line 1349 "val.tab.c" /* yacc.c:1652  */
     break;
 
   case 15:
-#line 50 "val.y" /* yacc.c:1652  */
+#line 57 "val.y" /* yacc.c:1652  */
     {int tmp=0; if(strcmp((yyvsp[-2].strval), (yyvsp[0].strval))!=0) tmp=1; asprintf (&(yyval.strval), "%i", tmp);}
-#line 1348 "val.tab.c" /* yacc.c:1652  */
+#line 1355 "val.tab.c" /* yacc.c:1652  */
     break;
 
   case 16:
-#line 51 "val.y" /* yacc.c:1652  */
+#line 58 "val.y" /* yacc.c:1652  */
     {(yyval.strval)=(strlen((yyvsp[-2].strval))>strlen((yyvsp[0].strval))) ? "1" : "0";}
-#line 1354 "val.tab.c" /* yacc.c:1652  */
+#line 1361 "val.tab.c" /* yacc.c:1652  */
     break;
 
   case 17:
-#line 52 "val.y" /* yacc.c:1652  */
+#line 59 "val.y" /* yacc.c:1652  */
     {(yyval.strval)=(strlen((yyvsp[-2].strval))<strlen((yyvsp[0].strval))) ? "1" : "0";}
-#line 1360 "val.tab.c" /* yacc.c:1652  */
+#line 1367 "val.tab.c" /* yacc.c:1652  */
     break;
 
   case 18:
-#line 53 "val.y" /* yacc.c:1652  */
+#line 60 "val.y" /* yacc.c:1652  */
     {(yyval.strval)=(strlen((yyvsp[-2].strval))>=strlen((yyvsp[0].strval))) ? "1" : "0";}
-#line 1366 "val.tab.c" /* yacc.c:1652  */
+#line 1373 "val.tab.c" /* yacc.c:1652  */
     break;
 
   case 19:
-#line 54 "val.y" /* yacc.c:1652  */
+#line 61 "val.y" /* yacc.c:1652  */
     {(yyval.strval)=(strlen((yyvsp[-2].strval))<=strlen((yyvsp[0].strval))) ? "1" : "0";}
-#line 1372 "val.tab.c" /* yacc.c:1652  */
+#line 1379 "val.tab.c" /* yacc.c:1652  */
     break;
 
   case 20:
-#line 55 "val.y" /* yacc.c:1652  */
+#line 62 "val.y" /* yacc.c:1652  */
     { (yyval.strval) = (yyvsp[-1].strval); }
-#line 1378 "val.tab.c" /* yacc.c:1652  */
+#line 1385 "val.tab.c" /* yacc.c:1652  */
     break;
 
   case 21:
-#line 56 "val.y" /* yacc.c:1652  */
+#line 63 "val.y" /* yacc.c:1652  */
     {(yyval.strval)=strdup((yyvsp[0].strval));}
-#line 1384 "val.tab.c" /* yacc.c:1652  */
+#line 1391 "val.tab.c" /* yacc.c:1652  */
     break;
 
 
-#line 1388 "val.tab.c" /* yacc.c:1652  */
+#line 1395 "val.tab.c" /* yacc.c:1652  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -1615,7 +1622,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 59 "val.y" /* yacc.c:1918  */
+#line 66 "val.y" /* yacc.c:1918  */
 
 
 char* increment_first_char(char *str) 
@@ -1630,7 +1637,7 @@ char* increment_first_char(char *str)
    		first_char='z';printf("'z' nu mai poate fi incrementat!\n");
    }
    str[0]=first_char;
-   printf("%s\n",str);
+   //printf("%s\n",str);
    return str;
 }
 char* decrement_first_char(char *str) 
@@ -1645,7 +1652,7 @@ char* decrement_first_char(char *str)
    		first_char='a';printf("'a' nu mai poate fi decrementat!\n");
    }
    str[0]=first_char;
-   printf("%s\n",str);
+   //printf("%s\n",str);
    return str;
 }
 char* strvrs(char *str)
@@ -1698,11 +1705,24 @@ char* str_remove(char *str, const char *sub)
     }
     return str;
 }
-int main(){
-while (!feof(stdin))
-yyparse();
+
+int main(int argc, char **argv) {
+
+    FILE *myfile = fopen("input.txt", "r");
+    FILE *output = fopen("output.txt", "w");
+    if (!myfile) {
+        printf("Nu exista fisierul de input!\n");
+        return 1;
+    }
+    yyin = myfile;
+    yyout = output;
+    do {
+        yyparse();
+        fclose(yyout);
+    } while (!feof(yyin));
+
 }
-int yyerror (char *s)
-{
-fprintf(stderr,"%s\n",s);
+void yyerror(char *s) {
+    printf("\nEEK, parse error!  Message:%s",s);
+    exit(1);
 }

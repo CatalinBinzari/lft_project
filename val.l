@@ -2,7 +2,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "val.tab.h"
-void yyerror(char *);
 %}
 
 sir_in_ghilimele		\"([a-zA-Z0-9]|\\\\|\\\"|\\b|\\n|\\t|\\v|\\\'|\\\?|\\[0-9][0-9][0-9])+\"

@@ -3,7 +3,14 @@
 #include <stdlib.h>
 #include <ctype.h>
 #include <string.h>
-int yylex(void);
+
+#define YYERROR_VERBOSE
+extern int yylex();
+extern int yyparse();
+extern FILE *yyin;
+extern FILE *yyout;
+
+
 char* increment_first_char(char *str);
 char* decrement_first_char(char *str);
 char* strvrs(char *str);
@@ -31,14 +38,14 @@ int	  intval;
 
 %%
 statement : 
-        expression {printf("Raspuns:%s\n",$<strval>$);}
+        expression { fprintf(yyout, $1); }
         |VAR '=' expression { strcpy(sym[$1], $3); printf("sym[%d]=[%s]\n", $1,$3);}
 ;
 
 expression:  
       VAR { $$ = strdup(sym[$1]); printf("scot din sym[%d] valoarea %s\n", $1,$$);}
     | expression '+' expression {char* s=strdup($1);strcat(s,$3);$$=s;}
-    | expression '-' expression {printf("%s minus %s\n",$1,$3);$$=str_remove($1,$3);}
+    | expression '-' expression {$$=str_remove($1,$3);}
     | INCREMENT expression {$$=increment_first_char($2);}
     | DECREMENT expression {$$=decrement_first_char($2);}
     | SIMBOL_PUTERE expression {$$=strvrs($2);}
@@ -70,7 +77,7 @@ char* increment_first_char(char *str)
    		first_char='z';printf("'z' nu mai poate fi incrementat!\n");
    }
    str[0]=first_char;
-   printf("%s\n",str);
+   //printf("%s\n",str);
    return str;
 }
 char* decrement_first_char(char *str) 
@@ -85,7 +92,7 @@ char* decrement_first_char(char *str)
    		first_char='a';printf("'a' nu mai poate fi decrementat!\n");
    }
    str[0]=first_char;
-   printf("%s\n",str);
+   //printf("%s\n",str);
    return str;
 }
 char* strvrs(char *str)
@@ -138,11 +145,24 @@ char* str_remove(char *str, const char *sub)
     }
     return str;
 }
-int main(){
-while (!feof(stdin))
-yyparse();
+
+int main(int argc, char **argv) {
+
+    FILE *myfile = fopen("input.txt", "r");
+    FILE *output = fopen("output.txt", "w");
+    if (!myfile) {
+        printf("Nu exista fisierul de input!\n");
+        return 1;
+    }
+    yyin = myfile;
+    yyout = output;
+    do {
+        yyparse();
+        fclose(yyout);
+    } while (!feof(yyin));
+
 }
-int yyerror (char *s)
-{
-fprintf(stderr,"%s\n",s);
+void yyerror(char *s) {
+    printf("\nEEK, parse error!  Message:%s",s);
+    exit(1);
 }

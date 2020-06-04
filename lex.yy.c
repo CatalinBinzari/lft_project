@@ -466,9 +466,8 @@ char *yytext;
 #include <stdio.h>
 #include <stdlib.h>
 #include "val.tab.h"
-void yyerror(char *);
+#line 470 "lex.yy.c"
 #line 471 "lex.yy.c"
-#line 472 "lex.yy.c"
 
 #define INITIAL 0
 
@@ -685,9 +684,9 @@ YY_DECL
 		}
 
 	{
-#line 10 "val.l"
+#line 9 "val.l"
 
-#line 691 "lex.yy.c"
+#line 690 "lex.yy.c"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -746,14 +745,14 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 11 "val.l"
+#line 10 "val.l"
 { yylval.intval = *yytext - 'a';
 			return VAR;
 }
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 14 "val.l"
+#line 13 "val.l"
 {
 							char *tmp_str = (char*)calloc(strlen(yytext)-1, sizeof(char));
 							int tmp_str_index =0;
@@ -832,7 +831,7 @@ YY_RULE_SETUP
 												//printf("int octal:%d\n",octal_number);
 												//printf("a octal: %c\n",octal_number);
 
-												tmp_str[tmp_str_index]=octal_number; // single quote == 39
+												tmp_str[tmp_str_index]=octal_number; 
 												++i;++i;++i;
 												++tmp_str_index;
 												continue;
@@ -852,7 +851,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 109 "val.l"
+#line 108 "val.l"
 {
 	yylval.intval = atoi(yytext);
 	return CINT;
@@ -860,81 +859,81 @@ YY_RULE_SETUP
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 113 "val.l"
+#line 112 "val.l"
 { return *yytext; }
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 114 "val.l"
+#line 113 "val.l"
 {return INCREMENT;}
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 115 "val.l"
+#line 114 "val.l"
 {return DECREMENT;}
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 116 "val.l"
+#line 115 "val.l"
 {return SIMBOL_PUTERE; }
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 117 "val.l"
+#line 116 "val.l"
 {return SIMBOL_APROXIMARE;}
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 118 "val.l"
+#line 117 "val.l"
 {return EQUAL;}
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 119 "val.l"
+#line 118 "val.l"
 {return NOTEQUAL;}
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 120 "val.l"
+#line 119 "val.l"
 {return GREATER;}
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 121 "val.l"
+#line 120 "val.l"
 {return LESS;}
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 122 "val.l"
+#line 121 "val.l"
 {return GREATEREQUAL;}
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 123 "val.l"
+#line 122 "val.l"
 {return LESSEQUAL;}
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 125 "val.l"
+#line 124 "val.l"
 ;
 	YY_BREAK
 case 16:
 /* rule 16 can match eol */
 YY_RULE_SETUP
-#line 126 "val.l"
+#line 125 "val.l"
 {return 0;}
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 127 "val.l"
+#line 126 "val.l"
 yyerror("Caracter necunoscut");
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 128 "val.l"
+#line 127 "val.l"
 ECHO;
 	YY_BREAK
-#line 938 "lex.yy.c"
+#line 937 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -1939,7 +1938,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 128 "val.l"
+#line 127 "val.l"
 
 int yywrap(void) {
 return 1;
