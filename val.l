@@ -2,9 +2,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "val.tab.h"
+void showError();
 %}
 
-sir_in_ghilimele		\"([a-zA-Z0-9]|\\\\|\\\"|\\b|\\n|\\t|\\v|\\\'|\\\?|\\[0-9][0-9][0-9])+\"
+sir_in_ghilimele		\"([a-zA-Z0-9]|\\\\|\\\"|\\b|\\t|\\v|\\\'|\\\?|\\[0-9][0-9][0-9])+\"
 
 %%
 [a-z]  { yylval.intval = *yytext - 'a';
@@ -21,56 +22,56 @@ sir_in_ghilimele		\"([a-zA-Z0-9]|\\\\|\\\"|\\b|\\n|\\t|\\v|\\\'|\\\?|\\[0-9][0-9
 										//printf("backslash found\n");
 										if(yytext[i+1]=='\\')
 											{
-												printf("double backslash found\n");
+												//printf("double backslash found\n");
 												tmp_str[tmp_str_index]=92; // \ == 92
 												++i;++tmp_str_index;
 												continue;
 											}
 										else if(yytext[i+1]=='\"')
 											{
-												printf("double quotes found\n");
+												//printf("double quotes found\n");
 												tmp_str[tmp_str_index]=34; // " == 34" 
 												++i;++tmp_str_index;
 												continue;
 											}
 										else if(yytext[i+1]=='n')
 											{
-												printf("new line found\n");
+												//printf("new line found\n");
 												tmp_str[tmp_str_index]=10; // \n == 10
 												++i;++tmp_str_index;
 												continue;
 											}
 										else if(yytext[i+1]=='b')
 											{
-												printf("backspace found\n");
+												//printf("backspace found\n");
 												tmp_str[tmp_str_index]=8; // backspace == 8
 												++i;++tmp_str_index;
 												continue;
 											}
 										else if(yytext[i+1]=='t')
 											{
-												printf("horizontal tab found\n");
+												//printf("horizontal tab found\n");
 												tmp_str[tmp_str_index]=9; // horizontal tab == 9
 												++i;++tmp_str_index;
 												continue;
 											}
 										else if(yytext[i+1]=='v')
 											{
-												printf("vertical tab found\n");
+												//printf("vertical tab found\n");
 												tmp_str[tmp_str_index]=11; // vertical tab == 11
 												++i;++tmp_str_index;
 												continue;
 											}
 										else if(yytext[i+1]=='\'')
 											{
-												printf("vertical tab found\n");
+												//printf("vertical tab found\n");
 												tmp_str[tmp_str_index]=39; // single quote == 39
 												++i;++tmp_str_index;
 												continue;
 											}
 										else if(yytext[i+1]=='?')
 											{
-												printf("vertical tab found\n");
+												//printf("vertical tab found\n");
 												tmp_str[tmp_str_index]=63; // ? == 63
 												++i;++tmp_str_index;
 												continue;
@@ -120,11 +121,13 @@ sir_in_ghilimele		\"([a-zA-Z0-9]|\\\\|\\\"|\\b|\\n|\\t|\\v|\\\'|\\\?|\\[0-9][0-9
 "<"  {return LESS;}
 ">=" {return GREATEREQUAL;}
 "<=" {return LESSEQUAL;}
+","  {return VIRGULA;}
+[ \t\n]+ ;
 
-[ \t]+ ;
-\n {return 0;}
-. yyerror("Caracter necunoscut");
+";" {return SEMICOLON;}
+. {showError(); return(OTHER);}
+
 %%
-int yywrap(void) {
-return 1;
+void showError(){
+    printf("Other input");
 }

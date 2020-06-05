@@ -6,7 +6,6 @@
 
 #define YYERROR_VERBOSE
 extern int yylex();
-extern int yyparse();
 extern FILE *yyin;
 extern FILE *yyout;
 
@@ -18,6 +17,7 @@ char* string_repeat(const char *str, int n);
 char*  get_last_chars(const char *str, int n);
 char*  get_first_chars(const char *str, int n);
 char* str_remove(char *str, const char *sub);
+void yyerror(char *s);
 char sym[26][14];
 #define atoa(x) #x
 %}
@@ -34,16 +34,27 @@ int	  intval;
 %left '+' '-'
 %left '*' '/' '#'
 %right DECREMENT INCREMENT SIMBOL_PUTERE SIMBOL_APROXIMARE 
-
-
+%nonassoc VIRGULA SEMICOLON OTHER
+ 
 %%
+prog:
+  stmts
+;
+stmts :
+    | statement SEMICOLON stmts 
+    | statement VIRGULA stmts 
+    | SEMICOLON stmts
+
+;
 statement : 
-        expression { fprintf(yyout, $1); }
-        |VAR '=' expression { strcpy(sym[$1], $3); printf("sym[%d]=[%s]\n", $1,$3);}
+        expression { fprintf(yyout, "%s\n",$1); }
+        |VAR '=' expression { strcpy(sym[$1], $3); /*printf("sym[%d]=[%s]\n", $1,$3);*/}
+        |OTHER
+
 ;
 
 expression:  
-      VAR { $$ = strdup(sym[$1]); printf("scot din sym[%d] valoarea %s\n", $1,$$);}
+      VAR { $$ = strdup(sym[$1]); /*printf("scot din sym[%d] valoarea %s\n", $1,$$);*/}
     | expression '+' expression {char* s=strdup($1);strcat(s,$3);$$=s;}
     | expression '-' expression {$$=str_remove($1,$3);}
     | INCREMENT expression {$$=increment_first_char($2);}
@@ -146,23 +157,52 @@ char* str_remove(char *str, const char *sub)
     return str;
 }
 
-int main(int argc, char **argv) {
-
-    FILE *myfile = fopen("input.txt", "r");
-    FILE *output = fopen("output.txt", "w");
-    if (!myfile) {
-        printf("Nu exista fisierul de input!\n");
-        return 1;
-    }
-    yyin = myfile;
-    yyout = output;
-    do {
+int main(int argc, char *argv[]) {
+    //printf("%d",argc);
+    if (argc==1)
+    {
+      yyin = stdin;
+      while (!feof(yyin)){
         yyparse();
+      }
+    }
+    else if(argc==2)
+    { 
+      //printf("\n%s\n",argv[1]);
+      FILE *myfile = fopen(argv[1], "r");
+      FILE *output = fopen("output.txt", "w");
+      if (!myfile) {
+          printf("Nu exista fisierul de input: %s\n",argv[1]);
+          return 1;
+      }
+      yyin = myfile;
+      yyout = output;
+      do {
+          yyparse();
+      } while (!feof(yyin));
+      fclose(yyout);
+      fclose(yyin);
+    }
+    else if(argc==3)
+      { 
+        //printf("\n%s\n",argv[1]);
+        FILE *myfile = fopen(argv[1], "r");
+        FILE *output = fopen(argv[2], "w");
+        if (!myfile) {
+            printf("Nu exista fisierul de input: %s\n",argv[1]);
+            return 1;
+        }
+        yyin = myfile;
+        yyout = output;
+        do {
+            yyparse();
+        } while (!feof(yyin));
         fclose(yyout);
-    } while (!feof(yyin));
-
+        fclose(yyin);
+      }
 }
+
 void yyerror(char *s) {
-    printf("\nEEK, parse error!  Message:%s",s);
+    printf("\nParse error!  Message:%s\n",s);
     exit(1);
 }

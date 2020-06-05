@@ -61,7 +61,10 @@ extern int yydebug;
     DECREMENT = 267,
     INCREMENT = 268,
     SIMBOL_PUTERE = 269,
-    SIMBOL_APROXIMARE = 270
+    SIMBOL_APROXIMARE = 270,
+    VIRGULA = 271,
+    SEMICOLON = 272,
+    OTHER = 273
   };
 #endif
 
@@ -75,7 +78,7 @@ union YYSTYPE
 char* strval;
 int	  intval;
 
-#line 79 "val.tab.h" /* yacc.c:1921  */
+#line 82 "val.tab.h" /* yacc.c:1921  */
 };
 
 typedef union YYSTYPE YYSTYPE;
