@@ -18,7 +18,7 @@ char*  get_last_chars(const char *str, int n);
 char*  get_first_chars(const char *str, int n);
 char* str_remove(char *str, const char *sub);
 void yyerror(char *s);
-char sym[26][14];
+char sym_c[26][14];
 #define atoa(x) #x
 %}
 %union {
@@ -48,13 +48,13 @@ stmts :
 ;
 statement : 
         expression { fprintf(yyout, "%s\n",$1); }
-        |VAR '=' expression { strcpy(sym[$1], $3); /*printf("sym[%d]=[%s]\n", $1,$3);*/}
+        |VAR '=' expression { strcpy(sym_c[$1], $3); /*printf("sym[%d]=[%s]\n", $1,$3);*/}
         |OTHER
 
 ;
 
 expression:  
-      VAR { $$ = strdup(sym[$1]); /*printf("scot din sym[%d] valoarea %s\n", $1,$$);*/}
+      VAR { $$ = strdup(sym_c[$1]); /*printf("scot din sym[%d] valoarea %s\n", $1,$$);*/}
     | expression '+' expression {char* s=strdup($1);strcat(s,$3);$$=s;}
     | expression '-' expression {$$=str_remove($1,$3);}
     | INCREMENT expression {$$=increment_first_char($2);}
@@ -170,17 +170,14 @@ int main(int argc, char *argv[]) {
     { 
       //printf("\n%s\n",argv[1]);
       FILE *myfile = fopen(argv[1], "r");
-      FILE *output = fopen("output.txt", "w");
       if (!myfile) {
           printf("Nu exista fisierul de input: %s\n",argv[1]);
           return 1;
       }
       yyin = myfile;
-      yyout = output;
       do {
           yyparse();
       } while (!feof(yyin));
-      fclose(yyout);
       fclose(yyin);
     }
     else if(argc==3)

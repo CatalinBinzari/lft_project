@@ -1,13 +1,21 @@
-.PHONY: all compilare_proiect clean
+.PHONY: all compile arbore clean
 
-all: compilare_proiect
-compilare_proiect:
+all: compile arbore
+
+
+
+compile: 
 	@echo "Compilare proiect"
+	@bison -d -ocalc3.tab.c val.y
 	@flex val.l
-	@bison -d val.y
-	@gcc -o myexe val.tab.c lex.yy.c -lfl
-	@./myexe
+	@gcc -o myexe.exe calc3.tab.c lex.yy.c -lfl
+arbore: 
+	@echo "Compilare arbore"
+	@bison -d -ocalc3.tab.c calc3.y
+	@flex val.l
+	@gcc -o arbore.exe calc3.tab.c lex.yy.c calc3c.c -lm -lfl
+
 
 clean:
 	@echo "Stergere fisiere..."
-	@rm val.tab.* lex.yy.c myexe
+	@rm lex.yy.c myexe.exe arbore.exe calc3.tab.*

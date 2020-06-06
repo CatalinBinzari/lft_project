@@ -467,10 +467,11 @@ char *yytext;
 #line 2 "val.l"
 #include <stdio.h>
 #include <stdlib.h>
-#include "val.tab.h"
+#include "calc3.h"
+#include "calc3.tab.h"
 void showError();
-#line 473 "lex.yy.c"
 #line 474 "lex.yy.c"
+#line 475 "lex.yy.c"
 
 #define INITIAL 0
 
@@ -687,9 +688,9 @@ YY_DECL
 		}
 
 	{
-#line 10 "val.l"
+#line 11 "val.l"
 
-#line 693 "lex.yy.c"
+#line 694 "lex.yy.c"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -748,14 +749,14 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 11 "val.l"
+#line 12 "val.l"
 { yylval.intval = *yytext - 'a';
 			return VAR;
 }
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 14 "val.l"
+#line 15 "val.l"
 {
 							char *tmp_str = (char*)calloc(strlen(yytext)-1, sizeof(char));
 							int tmp_str_index =0;
@@ -854,7 +855,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 109 "val.l"
+#line 110 "val.l"
 {
 	yylval.intval = atoi(yytext);
 	return CINT;
@@ -862,86 +863,86 @@ YY_RULE_SETUP
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 113 "val.l"
+#line 114 "val.l"
 { return *yytext; }
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 114 "val.l"
+#line 115 "val.l"
 {return INCREMENT;}
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 115 "val.l"
+#line 116 "val.l"
 {return DECREMENT;}
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 116 "val.l"
+#line 117 "val.l"
 {return SIMBOL_PUTERE; }
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 117 "val.l"
+#line 118 "val.l"
 {return SIMBOL_APROXIMARE;}
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 118 "val.l"
+#line 119 "val.l"
 {return EQUAL;}
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 119 "val.l"
+#line 120 "val.l"
 {return NOTEQUAL;}
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 120 "val.l"
+#line 121 "val.l"
 {return GREATER;}
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 121 "val.l"
+#line 122 "val.l"
 {return LESS;}
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 122 "val.l"
+#line 123 "val.l"
 {return GREATEREQUAL;}
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 123 "val.l"
+#line 124 "val.l"
 {return LESSEQUAL;}
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 124 "val.l"
+#line 125 "val.l"
 {return VIRGULA;}
 	YY_BREAK
 case 16:
 /* rule 16 can match eol */
 YY_RULE_SETUP
-#line 125 "val.l"
+#line 126 "val.l"
 ;
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 127 "val.l"
+#line 128 "val.l"
 {return SEMICOLON;}
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 128 "val.l"
-{showError(); return(OTHER);}
+#line 129 "val.l"
+{showError();}
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 130 "val.l"
+#line 131 "val.l"
 ECHO;
 	YY_BREAK
-#line 945 "lex.yy.c"
+#line 946 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -1946,8 +1947,9 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 130 "val.l"
+#line 131 "val.l"
 
 void showError(){
     printf("Other input");
 }
+

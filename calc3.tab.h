@@ -34,8 +34,8 @@
 /* Undocumented macros, especially those whose name start with YY_,
    are private implementation details.  Do not rely on them.  */
 
-#ifndef YY_YY_VAL_TAB_H_INCLUDED
-# define YY_YY_VAL_TAB_H_INCLUDED
+#ifndef YY_YY_CALC3_TAB_H_INCLUDED
+# define YY_YY_CALC3_TAB_H_INCLUDED
 /* Debug traces.  */
 #ifndef YYDEBUG
 # define YYDEBUG 0
@@ -49,9 +49,9 @@ extern int yydebug;
 # define YYTOKENTYPE
   enum yytokentype
   {
-    VAR = 258,
+    STRING = 258,
     CINT = 259,
-    STRING = 260,
+    VAR = 260,
     EQUAL = 261,
     NOTEQUAL = 262,
     GREATER = 263,
@@ -73,12 +73,17 @@ extern int yydebug;
 
 union YYSTYPE
 {
-#line 24 "val.y" /* yacc.c:1921  */
+#line 23 "calc3.y" /* yacc.c:1921  */
 
-char* strval;
-int	  intval;
+	char* strval;
+	char* strval1;
+	int iValue;
+	int intval;
+	char sIndex;
+	nodeType *nPtr;
 
-#line 82 "val.tab.h" /* yacc.c:1921  */
+
+#line 87 "calc3.tab.h" /* yacc.c:1921  */
 };
 
 typedef union YYSTYPE YYSTYPE;
@@ -91,4 +96,4 @@ extern YYSTYPE yylval;
 
 int yyparse (void);
 
-#endif /* !YY_YY_VAL_TAB_H_INCLUDED  */
+#endif /* !YY_YY_CALC3_TAB_H_INCLUDED  */

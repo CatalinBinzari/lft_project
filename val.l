@@ -1,7 +1,8 @@
 %{
 #include <stdio.h>
 #include <stdlib.h>
-#include "val.tab.h"
+#include "calc3.h"
+#include "calc3.tab.h"
 void showError();
 %}
 
@@ -125,7 +126,7 @@ sir_in_ghilimele		\"([a-zA-Z0-9]|\\\\|\\\"|\\b|\\t|\\v|\\\'|\\\?|\\[0-9][0-9][0-
 [ \t\n]+ ;
 
 ";" {return SEMICOLON;}
-. {showError(); return(OTHER);}
+. {showError();}
 
 %%
 void showError(){
